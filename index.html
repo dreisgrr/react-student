@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Learning React JS</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<script src="https://fb.me/react-0.14.7.js"></script>
+	<script src="https://fb.me/react-dom-0.14.7.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.25/browser.min.js"></script>
+
+
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div id="jumbotron"></div>
+			</div>
+		</div>
+	</div>
+	<script type="text/babel">
+		const user = {
+			name: "Jardine",
+			desc: "Currently a third year student from University of Santo Tomas majoring in Chemical Engineering.",
+			imgSrc: "./2x2.jpg"
+		};
+
+		const defaultUser = {
+			name: "(student name)",
+			desc: "Student description",
+			imgSrc: ""
+		}
+
+		var Jumbotron = React.createClass({
+			getInitialState: function(){
+				return {
+					displayName: "(student name)",
+					desc: "Student description",
+					imgSrc: ""
+				}
+			},
+
+			getDefaultProps: function() {
+				return {
+					displayName: "(student name)",
+					desc: "Student description"
+				}
+			},
+			render: function(){
+				return(
+					<div> 
+						<div className="jumbotron">
+							<img src={this.state.imgSrc}/>
+							<h1>I am {this.state.displayName}!</h1>
+							  <p>{this.state.desc}</p>
+							  <input type="text" ref="studentForm" onChange={this.changeDisplayName} placeholder="Enter student name" />
+							  <p><a className="btn btn-primary btn-lg" href="#" role="button" onClick={() => {this.onClick()}}>Load student</a></p>
+							  <p><a className="btn btn-primary btn-lg" href="#" role="button" onClick={() => {this.resetValue()}}>Reset</a></p>
+						</div>
+					</div>
+				)
+			},
+			onClick: function(){
+				this.setState({displayName: user.name});
+				this.setState({desc: user.desc});
+				this.setState({imgSrc: user.imgSrc})
+				ReactDOM.findDOMNode(this.refs.studentForm).value = "";
+			},
+			resetValue: function(){
+				ReactDOM.findDOMNode(this.refs.studentForm).value = "";
+				this.setState({displayName: defaultUser.name});
+				this.setState({desc: defaultUser.desc});
+				this.setState({imgSrc: defaultUser.imgSrc})
+			},
+			changeDisplayName: function(e){
+				console.log(e.target.value);
+				this.setState({displayName: e.target.value});
+			}
+		});
+		ReactDOM.render(
+				<Jumbotron />,
+				document.getElementById('jumbotron')
+			
+		);
+	</script>
+</body>
+</html>
